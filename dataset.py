@@ -1,26 +1,27 @@
 import torch
-from datasets import load_dataset
-from torch.utils.data import Dataset, DataLoader, Subset
+from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms as T
+from PIL import Image
+from pathlib import Path
 
 
-class CelebAHF(Dataset):
-    def __init__(self, split: str, transform):
-        self.ds = load_dataset("flwrlabs/celeba", split=split)
+class CelebAFolder(Dataset):
+    def __init__(self, folder: str, transform):
+        self.paths = sorted(Path(folder).glob("*.jpg"))
         self.transform = transform
 
     def __len__(self):
-        return len(self.ds)
+        return len(self.paths)
 
     def __getitem__(self, idx):
-        image = self.ds[idx]["image"]          # PIL image
-        return self.transform(image), 0        # dummy label
+        image = Image.open(self.paths[idx]).convert("RGB")
+        return self.transform(image), 0
 
 
 def get_transform(resolution: int = 256) -> T.Compose:
     return T.Compose([
         T.CenterCrop(178),
-        T.Resize(resolution, antialias=True),  # antialias suppresses warning
+        T.Resize(resolution, antialias=True),
         T.ToTensor(),
         T.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5]),
     ])
@@ -29,13 +30,13 @@ def get_transform(resolution: int = 256) -> T.Compose:
 def get_dataloaders(config: dict) -> tuple[DataLoader, DataLoader]:
     transform = get_transform(config["resolution"])
 
-    train_ds = Subset(CelebAHF("train", transform), range(config["train_size"]))
-    val_ds   = Subset(CelebAHF("valid", transform), range(config["val_size"]))
+    train_ds = CelebAFolder("data/train", transform)
+    val_ds   = CelebAFolder("data/val",   transform)
 
     shared = dict(
         batch_size  = config["batch_size"],
         num_workers = config["num_workers"],
-        pin_memory  = config["device"] == "cuda",   # no-op on CPU, avoids warning
+        pin_memory  = config["device"] == "cuda",
     )
     return (
         DataLoader(train_ds, shuffle=True,  **shared),
