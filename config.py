@@ -28,6 +28,8 @@ def get_config():
                         default="cuda" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--num_workers", type=int, default=2)
 
+    parser.add_argument("--dead_code_interval", type=int, default=50)
+
     args = parser.parse_args()
     return vars(args)  
 config = {
@@ -43,4 +45,5 @@ config = {
     "epochs": 100,
     "device": "cuda" if torch.cuda.is_available() else "cpu",
     "num_workers": 2,
+    "dead_code_interval": 50,
 }
