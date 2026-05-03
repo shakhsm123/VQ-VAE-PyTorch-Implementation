@@ -8,13 +8,12 @@ A clean, from-scratch implementation of **Vector Quantized Variational Autoencod
 
 ## Results
 
-| Original | Reconstruction |
-|----------|---------------|
-| ![Original faces from CelebA](assets/reconstructions.png) | ↑ same image, bottom row |
+
 
 Codebook utilization after training — all 1024 codes active, no collapse:
 
-![Codebook usage histogram](assets/codebook_usage.png)
+You can also have a look at original faces and reconstructions made after training (first 5 epoch results)
+![Codebook usage histogram](assets/preview.png)
 
 ---
 
