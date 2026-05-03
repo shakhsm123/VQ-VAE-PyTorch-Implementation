@@ -24,13 +24,13 @@ class EncoderBlock(nn.Module):
 class EncoderModule(nn.Module):
     def __init__(self, config: dict):
         super().__init__()
-        channels = config["encoder_channels"]  # [128, 256, 256, 512]
-        dims = [3] + channels                  # [3, 128, 256, 256, 512]
-
         self.encoders = nn.Sequential(
-            *[EncoderBlock(dims[i], dims[i + 1]) for i in range(len(channels))]
+            EncoderBlock(3,   128),
+            EncoderBlock(128, 256),
+            EncoderBlock(256, 256),
+            EncoderBlock(256, 512),
         )
-        self.final = nn.Conv2d(channels[-1], config["codebook_dim"], kernel_size=1)
+        self.final = nn.Conv2d(512, config["codebook_dim"], kernel_size=1)
 
     def forward(self, x):
         x = self.encoders(x)
