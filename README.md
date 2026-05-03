@@ -81,9 +81,12 @@ pip install -r requirements.txt
 # Sanity check VRAM before committing to a full run
 python vram_check.py
 
+
 # download data and preprocess it
 python download_data.py
 python prepare_data.py
+
+
 # Train (saves checkpoints/last.pt and checkpoints/best.pt)
 python train.py
 
