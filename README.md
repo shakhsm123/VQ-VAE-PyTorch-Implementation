@@ -40,6 +40,8 @@ vq-vae/
 ├── config.py           # All hyperparameters
 ├── dataset.py          # CelebAHF dataset + DataLoader
 ├── train.py            # Training loop with checkpointing & resume
+├── prepare_data.py     # data preprocessing script for dataloaders to work normally
+├── download_data.py    # Script to download data properly
 ├── visualize.py        # Reconstruction grid + codebook histogram
 ├── vram_check.py       # Peak VRAM sanity check before full run
 ├── vqvae/
@@ -79,8 +81,12 @@ pip install -r requirements.txt
 # Sanity check VRAM before committing to a full run
 python vram_check.py
 
+# download data and preprocess it
+python download_data.py
+python prepare_data.py
 # Train (saves checkpoints/last.pt and checkpoints/best.pt)
 python train.py
+
 
 # Visualize reconstructions from best checkpoint
 python visualize.py --checkpoint checkpoints/best.pt
