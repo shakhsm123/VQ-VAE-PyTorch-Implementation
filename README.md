@@ -5,7 +5,7 @@ A clean, from-scratch implementation of **Vector Quantized Variational Autoencod
 > van den Oord, A., Vinyals, O., & Kavukcuoglu, K. — *Neural Discrete Representation Learning*, NeurIPS 2017.
 
 ---
-
+![VQ-VAE architecture and pipeline](assets/vq_VAE.png)
 ## Results
 
 
