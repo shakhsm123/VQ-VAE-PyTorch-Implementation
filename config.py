@@ -46,4 +46,5 @@ config = {
     "device": "cuda" if torch.cuda.is_available() else "cpu",
     "num_workers": 2,
     "dead_code_interval": 50,
+    "encoder_channels": [128, 256, 256, 512],
 }
